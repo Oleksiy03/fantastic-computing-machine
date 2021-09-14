@@ -1,0 +1,7 @@
+s=input('input the elements of the array: ').split(',')
+l=[]
+for i in s:
+    l.append(int(i))
+ 
+setl=set(l)
+print("the amount of different variables", len(setl))
