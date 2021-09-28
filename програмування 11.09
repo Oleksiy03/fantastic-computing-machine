@@ -1,11 +1,29 @@
-s=input('input the elements of the array: ').split(',')
-l=[]
-for i in s:
-    l.append(int(i))
+def inputArray(line):
+    s=line.split(',')
+    l=[]
+    for i in s:
+        try:
+            l.append(int(i))
+        except ValueError:
+            pass
+    return l
+ 
+def DifElCount(mas):
+    a=[]
+    for i in mas:
+        if a.count(i)==0:
+            a.append(i)
 
-a=[]
-for i in l:
-    if a.count(i)==0:
-        a.append(i)
-        
-print("the amount of different variables", len(a))
+    return len(a)
+ 
+while True:
+    a=input('input the element of the array or Q to quit:\n')
+    if a == 'q':
+        break
+    else:
+        mas = inputArray(a)
+        if len(mas) == 0:
+            print("you haven't input any elements")
+            break
+        else:
+            print('this is the number of different elements of the array', DifElCount(mas))
