@@ -1,32 +1,52 @@
-x=[]
-n=int(input("Type in the matrix's size: "))
-for i in range(n):
-    y=[]
-    s=input().split() #ділить по символу роздільника
-    for j in s:
-        y.append(float(j))
-    if len(y)==n:
-        x.append(y)
+def inputMatrix(size):
+    print('input the elements of the matrix')
+    x=[]
+    while len(x) < size:
+        y=[]
+        s=input().split() #ділить по символу роздільника
+        for j in s:
+            try:
+                y.append(float(j))
+            except ValueError:
+                pass
+        if len(y)==size:
+            x.append(y)
+    return x
 
-if len(x)==n:
-    minel=[]
+def MaxOfMin(matrix):
+    n = len(matrix)
+    minel = []
     for i in range(n):
-        if x[i][i]<0:
-            #minel.append(min(x[i]))
-            m=x[i][0]
+        if matrix[i][i]<0:
+                        #minel.append(min(x[i]))
+            m=matrix[i][0]
             for j in range(1, n):
-                if x[i][j]<m:
-                    m=x[i][j]
-            minel.append(m)
-
+                if matrix[i][j]<m:
+                    m=matrix[i][j]
+                    minel.append(m)
+ 
     if len(minel)>0:            
         m=minel[0]
         for i in minel:
             if i>m:
                 m=i
-        print('the max of the mins is: ', m) 
-
+        print('The max of the mins is: ', m)
+ 
     else:
-       print('there are no rows with negative elements on the main diagonal') #max(minel)
-else:
-    print('The matrix was incorrectly input. The size is different form what was calimed')
+        print('there are no rows with negative elements on the main diagonal') #max(minel)
+ 
+while True:
+    a=input('input the size of the marix or Q to quit:\n')
+    if a == 'q':
+        break
+    else:
+        try:
+             n = int(a)
+        except ValueError:
+            pass
+        if n <= 1:
+            print("the size isn't supposed to be lesser than 2")
+            pass
+        else:
+            matrix = inputMatrix(n)
+            MaxOfMin(matrix)
