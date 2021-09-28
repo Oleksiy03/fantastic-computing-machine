@@ -1,15 +1,27 @@
 def luckynum(n):
+    list=[4,7]
     while n!=0:
         k=(n%10)
-        if k != 4 and k != 7:
+        if k not in list:
             return False
         n//=10
     return True    
-    
-count=0
-n=int(input('type in n'))
-for i in range(1, n+1):
-    if luckynum(i): 
-        count+=1
 
-print('the amount of lucky nums is: ', count)
+while True:
+    count=0
+    c=input('type in a number (n) to run the programme or q to quit\n')
+    if c=='q':
+        break
+    else:
+        try:
+            n=int(c)
+            if n <= 0:
+                raise Exception #нам не підходить
+            for i in range(1, n+1):
+                if luckynum(i): 
+                    count+=1
+ 
+            print('the amount of lucky nums is: ', count)
+ 
+        except Exception: #програмі не підходить 
+            print('you have input a value that isnt a positive int')
