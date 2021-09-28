@@ -1,8 +1,14 @@
 import random as rnd
-
+ 
 def input_matrix():
     x=[]
-    n=int(input("Type in the matrix's size: "))
+    while True:
+        try:
+            n=int(input("Type in the matrix's size: "))
+            break
+        except ValueError:
+            pass
+            #print('the value must be an integer')
     for i in range(n):
         y=[]
         s=input().split() #ділить по символу роздільника
@@ -11,65 +17,97 @@ def input_matrix():
         if len(y)==n:
             x.append(y)
     return x
-
+ 
 def gen_matrix():
-    n=int(input("Type in the matrix's size: "))
-    a=int(input("Type in the start of the range"))
-    b=int(input("Type in the end of the range"))
+    while True:
+        try:
+            n=int(input("Type in the matrix's size: "))
+            break
+        except ValueError:
+            pass
+    while True:
+        try:
+            a=int(input("Type in the start of the range: "))
+            break
+        except ValueError:
+            pass
+    while True:
+        try:
+            b=int(input("Type in the end of the range: "))
+            break
+        except ValueError:
+            pass
     x=[[rnd.randint(a,b) for j in range(n)] for i in range(n)]
     for row in x:
         for el in row:
             print(el, end='  ')
         print()
     return x
-
+ 
 def binary_search(mas, k):
     mid = len(mas) // 2
     low = 0
     high = len(mas) - 1
     operation = 1
     result = []
-    #print("Check if element K = mas[", mid, "]")
     while mas[mid][0] != k and low <= high:
         operation +=1
         if k > mas[mid][0]:
-            #print("Check if element is between ", mid+1, " and ", high)
             operation += 1
             low = mid + 1
         else:
-            #print("Check if element is between ", low, " and ", mid-1)
             high = mid - 1
             operation += 1
         mid = (low + high) // 2
-        #print("Check if element K = mas[", mid, "]")
-
+ 
     if low > high:
         print("Element ", k, " is not in the array!")
     else:
         print("Number of operations: ", operation)
         result.append((mas[mid][1], mas[mid][2]))
     return result
+ 
+def bubbleSort(arr):
+    n = len(arr)
 
-def transform(m1):
-    n=len(m1)
-    l=[(m1[i][j], i, j)for j in range(n) for i in range(n)]
-    l.sort(key=lambda x:x[0])
+    # Traverse through all array elements
+    for i in range(n-1):
+    # range(n) also work but outer loop will repeat one time more than needed.
+
+        # Last i elements are already in place
+        for j in range(0, n-i-1):
+
+            # traverse the array from 0 to n-i-1
+            # Swap if the element found is greater
+            # than the next element
+            if arr[j] > arr[j + 1] :
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+ 
+def transform(matrix):
+    n=len(matrix)
+    l=[(matrix[i][j], i, j)for j in range(n) for i in range(n)]
+    bubbleSort(l)
     return(l)
-
+ 
 while True:
     c=input('Type in 1 to input a matrix yourself\n Type in 2 to generate a matrix randomly\n Type in q to end the programme\n')
     if c=='q':
         break
     elif c=='1':
-        m1=input_matrix()
+        matrix=input_matrix()
     elif c=='2':
-        m1=gen_matrix()
+        matrix=gen_matrix()
     else:
         print('Incorrect form of input. Try again')
         continue
-
-    s=int(input("input the element to search for"))
-    l=transform(m1)
+ 
+    while True:
+        try:
+            s=int(input("input the element to search for: "))
+            break
+        except ValueError:
+            pass
+    l=transform(matrix)
     res=binary_search(l, s)
     if len(res) > 0:
-        print('the indexes of the element',s,' in the matrix', res)
+        print('the indexes of the element',s,' in the matrix is:', res)
