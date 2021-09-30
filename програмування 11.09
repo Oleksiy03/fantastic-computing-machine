@@ -17,7 +17,7 @@ def DifElCount(mas):
     return len(a)
  
 while True:
-    a=input('input the element of the array or Q to quit:\n')
+    a=input('input the element of the array using a coma or Q to quit:\n')
     if a == 'q':
         break
     else:
