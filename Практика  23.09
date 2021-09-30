@@ -1,14 +1,7 @@
 import random as rnd
  
-def input_matrix():
+def input_matrix(n):
     x=[]
-    while True:
-        try:
-            n=int(input("Type in the matrix's size: "))
-            break
-        except ValueError:
-            pass
-            #print('the value must be an integer')
     for i in range(n):
         y=[]
         s=input().split() #ділить по символу роздільника
@@ -18,31 +11,24 @@ def input_matrix():
             x.append(y)
     return x
  
-def gen_matrix():
+def valueCheck(s):
     while True:
         try:
-            n=int(input("Type in the matrix's size: "))
+            n=int(input(s))
             break
         except ValueError:
             pass
-    while True:
-        try:
-            a=int(input("Type in the start of the range: "))
-            break
-        except ValueError:
-            pass
-    while True:
-        try:
-            b=int(input("Type in the end of the range: "))
-            break
-        except ValueError:
-            pass
+    return n 
+
+def gen_matrix(n,a,b):
     x=[[rnd.randint(a,b) for j in range(n)] for i in range(n)]
-    for row in x:
+    return x
+
+def Print(matrix):
+    for row in matrix:
         for el in row:
             print(el, end='  ')
         print()
-    return x
  
 def binary_search(mas, k):
     mid = len(mas) // 2
@@ -65,7 +51,19 @@ def binary_search(mas, k):
     else:
         print("Number of operations: ", operation)
         result.append((mas[mid][1], mas[mid][2]))
+        duplicates(mid, mas, result)
     return result
+
+def duplicates(mid, mas, result):
+    element = mas[mid][0]
+    el = mid + 1
+    while el < len(mas) and mas[el][0] == element:
+        result.append((mas[el][1],mas[el][2]))
+        el += 1
+    el = mid - 1
+    while el >= 0 and mas[el][0] == element:
+        result.append((mas[el][1],mas[el][2]))
+        el -= 1
  
 def bubbleSort(arr):
     n = len(arr)
@@ -93,21 +91,21 @@ while True:
     c=input('Type in 1 to input a matrix yourself\n Type in 2 to generate a matrix randomly\n Type in q to end the programme\n')
     if c=='q':
         break
-    elif c=='1':
-        matrix=input_matrix()
-    elif c=='2':
-        matrix=gen_matrix()
+    elif c=='1' or c=='2':
+        n=valueCheck("Type in the matrix's size: ")
+        if c=='1':
+            matrix=input_matrix(n)
+        elif c=='2':
+            a=valueCheck("Type in the start of the range: ")
+            b=valueCheck("Type in the end of the range: ")
+            matrix=gen_matrix(n,a,b)
+            Print(matrix)
+        d=valueCheck("input the element to search for: ")
+        l=transform(matrix)
+        res=binary_search(l, d)
+        if len(res) > 0:
+            print('the indexes of the element',d,' in the matrix is:', res)
+
     else:
         print('Incorrect form of input. Try again')
         continue
- 
-    while True:
-        try:
-            s=int(input("input the element to search for: "))
-            break
-        except ValueError:
-            pass
-    l=transform(matrix)
-    res=binary_search(l, s)
-    if len(res) > 0:
-        print('the indexes of the element',s,' in the matrix is:', res)
