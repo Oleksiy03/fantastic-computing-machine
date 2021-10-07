@@ -6,21 +6,25 @@ def luckynum(n,list):
         n//=10
     return True    
 
+def valueCheck(s):
+    while True:
+        try:
+            n=int(s)
+            if n < 0:
+                raise ValueError
+            break
+        except ValueError:
+            s = input("Input a positive integer: ")
+    return n 
+
 while True:
     count=0
     c=input('type in a number (n) to run the programme or q to quit\n')
     if c=='q':
         break
     else:
-        try:
-            n=int(c)
-            if n <= 0:
-                raise Exception #нам не підходить
-            for i in range(1, n+1):
-                if luckynum(i,[4,7]): 
-                    count+=1
-
-            print('the amount of lucky nums is: ', count)
-
-        except Exception: #програмі не підходить 
-            print('you have input a value that isnt a positive int')
+        n=valueCheck(c)
+        for i in range(1, n+1):
+            if luckynum(i,[4,7]): 
+                count+=1
+        print('the amount of lucky nums is: ', count)
