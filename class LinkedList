@@ -1,0 +1,112 @@
+import random
+from module2 import Node
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def input(self, s):
+        line=input(s).split() #список стрічок
+        self.head = None
+        mas=[]
+        for i in line:
+            try:
+                mas.append(float(i)) #формуємо стандартний список
+            except ValueError:
+                pass
+
+        for i in mas[::-1]:  #зріз
+            n = Node(i, self.head)
+            self.head = n
+
+    def show(self):
+        temp = self.head
+        if temp is None:
+            print('the list is empty!')
+        else:
+            while temp is not None:
+                print("%.3f"% temp.data, end='  ')
+                temp=temp.next
+        print()
+
+    def generate(self, n, b, e):  #number, beginning, end
+        self.head = None
+        for i in range(n):
+            d = random.uniform(b,e)
+            n = Node(d, self.head)
+            self.head = n 
+
+    def add(self, el, p): #position
+        n = Node(el)
+        if p == 0:
+            n.next = self.head
+            self.head = n
+        else:
+            try:
+                if p < 0:
+                    raise IndexError
+                temp = self.head
+                for i in range(p-1):
+                    if temp is None:
+                        raise IndexError
+                    temp = temp.next
+                if temp is None:
+                    raise IndexError
+                n.next = temp.next
+                temp.next = n
+            except IndexError:
+                print('the position was input incorrectly!')
+
+    def delet(self, p):
+        try:
+            if self.head is None:
+                raise Exception
+            if p == 0:
+                self.head = self.head.next
+            elif p < 0:
+                raise IndexError
+            else:
+                temp = self.head
+                for i in range(p-1):
+                    if temp.next is None:
+                        raise IndexError
+                    temp = temp.next
+                if temp.next is None:
+                    raise IndexError
+                temp.next = temp.next.next
+
+        except IndexError:
+            print('the position was incorrectly input')
+        except Exception:
+            print('The list is empty. Unable to delete the element!')
+
+    def Ordered(self):
+        temp = self.head 
+        if temp is None or temp.next is None:
+            return True
+        t1 = t2 = True   #незростання  i неспадання
+        while temp.next is not None:
+            t1 = t1 and temp.data <= temp.next.data
+            t2 = t2 and temp.data >= temp.next.data
+            if not t1 and not t2:
+                return False
+            temp = temp.next
+        return True
+
+    def Remove(self, k):
+        temp = self.head
+        pos = 1
+        try:
+            if temp is None:
+                raise Exception
+            while temp.next is not None:
+                pos += 1
+                if pos % k == 0:
+                    temp.next = temp.next.next
+                    pos +=1
+                if temp.next is None:
+                    break
+                else:
+                    temp = temp.next
+        except Exception:
+            print('The list is empty. Unable to remove the element!')
