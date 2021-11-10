@@ -1,0 +1,72 @@
+import validation as V
+import datetime as AM
+
+"""
+    def __init__(self, ID = None, Rnum = 'BC0001IP', DOR = "07.10.2021", VIN = None, car = None, YOM = None):
+        self.__ID = ID
+        self.__Rnum = Rnum #registration number
+        self.__DOR = AM.datetime.strptime(DOR, "%d/%m/%y").date() 
+        self.__VIN = VIN #code 17+letters
+        self.__car = car #Audi/Tesla...
+        self.__YOM = YOM #2012/2020/1995... (min 1886)
+"""
+
+class REGISTRATION_CERTIFICATE:
+    def __init__(self, **kvargs):
+        for k,v in kvargs.items():
+            try:
+                setattr(self, k, v)
+            except ValueError as v:
+                print(v)
+                raise TypeError('this object is not initialized correctly')
+
+    def __dir__(self):
+        return ['ID','Rnum','DOR','VIN','car','YOM']
+
+    def __str__(self):
+        s = ''
+        for i in dir(self):
+            s += f'{i} : {getattr(self,i)}'+'\n'
+        return s
+
+    @property
+    def ID(self):
+        return self.__ID
+    @ID.setter 
+    def ID(self, value):
+        self.__ID = V.CheckID(value)
+
+    @property 
+    def Rnum(self):
+        return self.__Rnum
+    @Rnum.setter 
+    def Rnum(self, value):
+        self.__Rnum = V.CheckRnum(value)
+
+    @property 
+    def DOR(self):
+        return self.__DOR
+    @DOR.setter 
+    def DOR(self, value):
+        self.__DOR = V.CheckDOR(value)
+
+    @property 
+    def VIN(self):
+        return self.__VIN
+    @VIN.setter 
+    def VIN(self, value):
+        self.__VIN = V.CheckVIN(value)
+
+    @property 
+    def car(self):
+        return self.__car
+    @car.setter 
+    def car(self, value):
+        self.__car = V.CheckCar(value)
+
+    @property 
+    def YOM(self):
+        return self.__YOM
+    @YOM.setter 
+    def YOM(self, value):
+        self.__YOM = V.CheckYOM(value)
