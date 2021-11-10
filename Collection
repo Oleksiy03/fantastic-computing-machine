@@ -1,0 +1,123 @@
+
+from Certificate import REGISTRATION_CERTIFICATE
+import csv
+from validation import CheckID
+
+class Collection:
+
+    def isID(self):
+        while True:
+            try:
+                i = input("Type in the ID: ")
+                return CheckID(i)
+            except ValueError as r:
+                print(r)        
+
+    def __init__(self):
+        self.array = []
+        self.massif = []
+
+    def readFromFile(self, name):
+        with open(name, 'r') as file:
+            csv_reader = csv.DictReader(file)
+            for line in csv_reader:
+                try:
+                    s = REGISTRATION_CERTIFICATE(**line)
+                    if s.ID in self.massif:
+                        raise KeyError('ID already exists')
+                    else:
+                        self.array.append(s)
+                        self.massif.append(s.ID)
+                except Exception as r:
+                    print(r)
+
+    def output(self):
+        print("         MY CAR COLLECTION:          ")   
+        for s in self.array:
+            print(s)
+
+    def typein(self): #adds an element
+        a = REGISTRATION_CERTIFICATE()
+        while True:
+            b = self.isID()
+            if b in self.massif:
+                print('ID already exists!')
+            else:
+                a.ID = b
+                break
+        for i in dir(a):
+            if i != 'ID':
+                while True:
+                    k = input('Type in a specific attribute '+i+': ')
+                    try:
+                        setattr(a,i,k)
+                        break
+                    except ValueError as r:
+                        print(r)
+        self.array.append(a)
+        self.massif.append(b)
+        return a
+
+    def searchID(self,ID):
+        for item in self.array:
+            if item.ID == ID:
+                return item
+
+
+    def searchV(self,v):
+        v = v.lower()
+        if len(self.array) == 0:
+            print('The collection is empty!')
+            return 
+        item = self.array[0]
+        a = []
+        for i in self.array:
+            for attr in dir(item):
+                if str(getattr(i,attr)).lower().startswith(v):
+                    a.append(i)
+        return a
+
+
+    def delID(self,ID):
+        a = self.searchID(ID)
+        if a is not None:
+            self.array.remove(a)
+            self.massif.remove(ID)
+            print(f'The object with the following ID: {ID} has been succesfully deleted!')
+        else:
+            print('An object with such an ID does not exist!')
+
+    def editID(self,ID):
+        a = self.searchID(ID)
+        if a is not None:
+            for i in dir(a):
+                if i != 'ID':
+                    print(i,getattr(a,i))
+                    n = input('If you wish to edit this value type in 1, if not press any key: ')
+                    if n == '1':
+                        while True:
+                            m = input('Type in a new value: ')
+                            try:
+                                setattr(a,i,m)
+                                break
+                            except ValueError as r:
+                                print(r)
+
+    def sort(self, c):
+        self.array.sort(key = lambda x:getattr(x,c))
+
+
+
+
+if __name__ == '__main__':
+    c = Collection()
+    c.readFromFile('cars.csv')
+    c.output()
+    #c.typein()
+    #c.output()
+    #c.editID(2)
+    #c.output()
+    #c.delID(1)
+    #c.searchV('opel')
+    c.sort('Rnum')
+    c.output()
