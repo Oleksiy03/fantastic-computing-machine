@@ -1,0 +1,70 @@
+
+from collection import Collection
+from Certificate import REGISTRATION_CERTIFICATE
+from validation import *
+
+def delel(c): #delet
+    ID = c.isID()
+    c.delID(ID)
+    c.output()
+
+def edel(c): #edit
+    ID = c.isID()
+    c.editID(ID)
+    c.output()
+
+def serel(c): #search
+    s = input('Type in a string to search for')
+    a = c.searchV(s)
+    if len(a) > 0:
+        print('We found these objects:\n')
+        for item in a:
+            print(item)
+    else:
+        print('Nothing was found!\n')
+
+def sorel(c): #sort
+    a = REGISTRATION_CERTIFICATE()
+    for i in dir(a):
+        print(i,end='\t')
+    while True:
+        s = input('Chose an atribute by which to sort: ')
+        if s in dir(a):
+            break
+        else:
+            print('Invalid atribute!')
+
+    c.sort(s)
+    c.output()
+
+
+def main():
+    a = Collection()
+    while True:
+        s = input('Input the name of the file: ')
+        try:
+            a.readFromFile(s)
+            break
+        except Exception as r:      
+            print(r)
+    a.output()
+ 
+    while True:
+        p = input('Please type in 1 to add an element\n2 to delete\n3 to edit\n4 to search for an element\nAnd 5 to sort\nOr q to quit:\n')
+        if p == '1':
+            a.typein() 
+        elif p == '2':
+            delel(a)
+        elif p == '3':
+            edel(a)
+        elif p == '4':
+            serel(a)
+        elif p == '5':
+            sorel(a)
+        elif p == "q":
+            break
+        else:
+            print('Invalid input!')
+        
+
+main()
