@@ -1,0 +1,32 @@
+
+from memento import *
+from collection import *
+
+class history():
+    def __init__(self, c):
+        self.mems = []
+        self.collection = c
+        self.index = 0
+   
+    def backup(self):
+        self.mems.append(self.collection.save())
+        self.index = len(self.mems) - 1
+
+    def undo(self):
+        if len(self.mems) == 0:
+            return 
+        a = self.mems[self.index - 1]
+        state = self.mems[self.index].getState()
+        print('Undo '+state)
+        self.collection.load(a)
+        self.index -= 1
+
+    def redo(self):
+        if len(self.mems) == 0 or self.index == len(self.mems) - 1:
+            return
+        a = self.mems[self.index + 1]
+        state = a.getState()
+        print('Redo '+state)
+        self.collection.load(a)
+        self.index += 1
+            
