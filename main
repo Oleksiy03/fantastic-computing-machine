@@ -1,0 +1,88 @@
+#n=int(input("Type in the first variable:\n"))
+#m=int(input('Type in the second variable:\n'))
+#print('The sum of n & m is', m+n) 
+
+from LinkedList import LinkedList
+
+def valueCheck(s):
+    while True:
+        try:
+            n=int(input(s)) 
+            break
+        except ValueError:
+            pass
+    return n  
+
+def Check(s): #position and n Check
+    while True:
+        try:
+            n = int(input(s)) 
+            if n < 0:
+                raise ValueError
+            break
+        except ValueError:
+            print('The value you have input is incorrect, try another')
+            pass
+    return n  
+
+def main():
+    while True:
+        menu = input('Press any key to run the menu\nOr type in q to quit the programme\n')
+        if menu == 'q':
+            break
+        else:
+
+            while True:
+                c = input('Type in 1 to input a List yourself\nType in 2 to generate a List randomly\nType in 3 to use IterGen\nType in c to continue with the programme\n')
+                a = LinkedList()
+                if c =='c':
+                    break
+                elif c =='1':
+                    a.input('input the elements of the list (devided by "space"): ')
+                    break
+                elif c =='2':
+                    n = Check("input the number of elements: ")
+                    s = valueCheck("input the start of the range: ")
+                    e = valueCheck("input the end of the range: ")
+                    a.generate(n,s,e)
+                    for i in a:
+                        print(i, end = ' ')
+                    #a.show()
+                    break
+                elif c == '3':
+                    n = Check("input the number of elements: ")
+                    s = valueCheck("input the start of the range: ")
+                    e = valueCheck("input the end of the range: ")
+                    for i in a.IteratorGenerator(n,s,e):
+                        print(i.data)
+                    break
+                else: 
+                    print("You have input an incorrect value!")
+                    continue
+        
+            while True:
+                m = input('Type in 3 to add an element\nType in 4 to delete an element\nType in 5 for a unique sequence of events\nOR type in 0 to return to the beginning\n')
+                if m == '0':
+                    break
+                elif m == '3':
+                    k = Check('Type in the position of insertion: ')
+                    v = valueCheck('Type in the value')
+                    a.add(v,k)
+                    a.show()
+                elif m == '4':
+                    k = Check('Type in the position of deletion: ')
+                    a.delet(k)
+                    a.show()
+                elif m == '5':   
+                    if a.Ordered():
+                        print("The list is already in order!")
+                    else:
+                        k = valueCheck('input the desired multiple: ')
+                        a.Remove(k)
+                        a.show()
+                else:
+                    print("You have input an incorrect value!")
+                    continue
+       
+
+main()
