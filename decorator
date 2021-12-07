@@ -1,0 +1,16 @@
+
+def CheckInt(s):
+    try:
+        n = int(s)
+        return n
+    except ValueError:
+        print("isn`t an integer!")
+
+def CheckRange(funk, a, b):
+    def wrapper(s):
+        z = funk(s)
+        if a < z < b:
+            return z
+        else: 
+            print("The number isn`t in the range")
+    return wrapper
