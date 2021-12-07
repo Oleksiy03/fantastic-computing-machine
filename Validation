@@ -1,0 +1,64 @@
+
+import datetime as AM
+
+def CheckID(s):
+    n = int(s)
+    if n <= 0:
+        raise ValueError('the ID is incorrect!')
+    return n
+          
+def CheckRnum(s):
+    s = s.strip()
+    if not s[:2].isalpha() or not s[2:6].isdigit() or not s[6:].isalpha() or len(s) != 8:  #start, end, pace
+        raise ValueError('the ragistration number was incorreclty input')
+    return s
+
+def CheckDOR(s):
+    try:
+        n = AM.datetime.strptime(s, "%d/%m/%Y").date()
+        if n.year <= 1980 or n > AM.datetime.today().date():
+            raise ValueError('The year is incorrect!')
+    except ValueError:
+        raise 
+    except Exception:
+        raise ValueError('the date has an incorrect format')
+    return n 
+
+def CheckVIN(s):
+    #s = 'jhefbshergfv'
+    s = s.strip()
+    if len(s) != 17:
+        raise ValueError('the VIN code must consist of exactly 17 symbols')
+    if not s.isalnum():
+        raise ValueError('the VIN code must consist of numbers and letters')
+    return s
+
+def CheckCar(s):
+    c = ['audi','tesla','volkswagen','opel','mercedes','lada','toyota','lamborghini']
+    s = s.strip()
+    s = s.lower()
+    if not s in c:
+        raise ValueError('the make of car is incorrect')
+    return s
+
+def CheckYOM(s):
+    n = int(s)
+    if n <= 1886 or n > 2021:
+        raise ValueError('the year is incorrect!')
+    return n
+
+'''
+if __name__ == '__main__':
+    try:     
+        CheckDOR('12/06/2019')
+    except Exception as r:
+        print(r)
+
+    # шаблон
+    num = 'CC1927RT'
+    try:
+        print(CheckRnum(num))
+    except ValueError as R:
+        print(R)
+ '''
+
