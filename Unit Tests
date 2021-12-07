@@ -1,0 +1,60 @@
+
+import unittest
+from collection import *
+
+class Test(unittest.TestCase):
+
+    def test_init(self):
+        a = Collection()
+        self.assertEqual(len(a.array), 0)
+
+    def test_add(self):
+        a = Collection()
+        b = REGISTRATION_CERTIFICATE(ID = '1')
+        a.add(b)
+        self.assertEqual(len(a.array), 1)
+        b2 = REGISTRATION_CERTIFICATE(ID = '2')
+        a.add(b2)
+        self.assertEqual(len(a.array), 2)
+        b3 = REGISTRATION_CERTIFICATE(ID = '1')
+        a.add(b3)
+        self.assertEqual(len(a.array), 2)
+
+    def test_RFF(self):
+        a = Collection()
+        a.readFromFile("cars.csv")
+        self.assertEqual(len(a.array),6)
+
+    def test_searchID(self):
+        a = Collection()
+        b = REGISTRATION_CERTIFICATE(ID = 23, YOM = 2000)
+        a.add(b)
+        self.assertEqual(a.searchID(23).YOM, 2000) 
+        self.assertEqual(a.searchID(2), None) 
+
+    def test_searchV(self):
+        a1 = Collection()
+        a1.readFromFile("cars.csv")
+        c = a1.searchV('200')
+        self.assertEqual(len(c), 3)
+        c = a1.searchV('TT')
+        self.assertEqual(len(c), 1)
+
+    def test_delID(self):
+        a = Collection()
+        b = REGISTRATION_CERTIFICATE(ID = 1)
+        a.add(b)
+        self.assertEqual(len(a.array), 1)
+        a.delID(1)
+        self.assertEqual(len(a.array), 0)
+
+    def test_edit(self):
+        a = Collection()
+        a.readFromFile("cars.csv") 
+        self.assertEqual(a.array[0].ID, 237)
+        a.sort("ID")
+        self.assertEqual(a.array[0].ID, 1)
+
+
+if __name__ == "__main__":
+    unittest.main()
