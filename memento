@@ -1,0 +1,11 @@
+
+class memento(object):
+    def __init__(self,sp,st):
+        self.list = sp.copy()
+        self.state = st
+
+    def getState(self):
+        return self.state
+
+
+
